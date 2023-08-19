@@ -1,41 +1,45 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+import React, { useState } from "react";
+import { Text, TextInput, TouchableOpacity } from "react-native";
+import tw from "tailwind-react-native-classnames";
+import AppButton from "../../Components/AppButton";
+import ScreenTemplate from "../../Components/ScreenTamplate";
+import { useNavigation } from "@react-navigation/native";
+import AppTextInput from "../../Components/AppTextInput";
 
 const Signup: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignup = () => {
-    console.log("signup")
+    console.log("signup");
   };
 
+  const navigation = useNavigation();
+  
   return (
-    <View style={tw`flex-1 justify-center p-5`}>
-      <Text style={tw`text-2xl mb-4`}>Signup</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        style={tw`p-2 border rounded mb-4`}
-      />
-      <TextInput
+    <ScreenTemplate topText="Create a new account">
+      <AppTextInput value={email} onChangeText={setEmail} placeholder="Email" />
+      <AppTextInput
         value={password}
         onChangeText={setPassword}
-        placeholder="Password"
+        placeholder="password"
         secureTextEntry
-        style={tw`p-2 border rounded mb-4`}
       />
-      <TextInput
+      <AppTextInput
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         placeholder="Confirm Password"
         secureTextEntry
-        style={tw`p-2 border rounded mb-4`}
       />
-      <Button title="Signup" onPress={handleSignup} />
-    </View>
+      <AppButton label="Signup" onPress={handleSignup} />
+      <Text style={tw`text-center mt-4`}>
+        Already have an account?
+        <TouchableOpacity onPress={() => navigation.navigate("Login" as never)}>
+          <Text style={tw`text-blue-500`}> Login</Text>
+        </TouchableOpacity>
+      </Text>
+    </ScreenTemplate>
   );
 };
 

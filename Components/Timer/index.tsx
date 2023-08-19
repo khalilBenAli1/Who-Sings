@@ -7,11 +7,11 @@ interface TimerProps {
   onTimeOut: () => void;
 }
 
-const TimerComponent: React.FC<TimerProps> = ({ initialTime, onTimeOut }) => {
+const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut }) => {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
+    if (timeLeft === 0) {
       onTimeOut();
       return;
     }
@@ -30,4 +30,4 @@ const TimerComponent: React.FC<TimerProps> = ({ initialTime, onTimeOut }) => {
   );
 };
 
-export default TimerComponent;
+export default Timer;

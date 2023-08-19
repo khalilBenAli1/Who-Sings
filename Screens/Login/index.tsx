@@ -1,34 +1,40 @@
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+import React, { useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import tw from "tailwind-react-native-classnames";
+import AppButton from "../../Components/AppButton";
+import ScreenTemplate from "../../Components/ScreenTamplate";
+import { useNavigation } from "@react-navigation/native";
+import AppTextInput from "../../Components/AppTextInput";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log("login")
+    console.log("login");
   };
+  
+  const navigation = useNavigation();
 
   return (
-    <View style={tw`flex-1 justify-center p-5`}>
-      <Text style={tw`text-2xl mb-4`}>Login</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        style={tw`p-2 border rounded mb-4`}
-      />
-      <TextInput
+    <ScreenTemplate topText="Login to your account">
+      <AppTextInput value={email} onChangeText={setEmail} placeholder="Email" />
+      <AppTextInput
         value={password}
         onChangeText={setPassword}
-        placeholder="Password"
+        placeholder="password"
         secureTextEntry
-        style={tw`p-2 border rounded mb-4`}
       />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
+      <AppButton label="Login" onPress={handleLogin} />
+      <Text style={tw`text-center mt-4`}>
+        Don't have an account?
+        <TouchableOpacity
+          onPress={() => navigation.navigate("SignUp" as never)}
+        >
+          <Text style={tw`text-blue-500`}> Signup</Text>
+        </TouchableOpacity>
+      </Text>
+    </ScreenTemplate>
   );
 };
 
