@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+
 import AppButton from '../../Components/AppButton';
+import ScreenTemplate from '../../Components/ScreenTamplate'; // Adjust the path accordingly
 
 const MainScreen: React.FC = () => {
   
   const handleNewGame = () => {
- 
+    
   };
 
-  const handleMyScore = () => {
+  const handleMyProfil = () => {
     
   };
 
@@ -22,13 +22,16 @@ const MainScreen: React.FC = () => {
   };
 
   return (
-    <View style={tw`flex-1 justify-center p-5`}>
-      <Text style={tw`text-2xl mb-8 text-center`}>Who Sings</Text>
+    <ScreenTemplate 
+      topText="Who Sings"
+      // backgroundImage={require('../../assets/background.jpg')}
+      // topImage={require('../../assets/topImage.png')}
+    >
       <AppButton label="New Game" onPress={handleNewGame}/>
-      <AppButton label="My Score" onPress={handleMyScore}/>
+      <AppButton label="My Profile" onPress={handleMyProfil}/>
       <AppButton label="High Score" onPress={handleHighScore}/>
       <AppButton label="Logout" onPress={Logout}/>
-    </View>
+    </ScreenTemplate>
   );
 }
 
