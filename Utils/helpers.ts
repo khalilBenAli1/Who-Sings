@@ -40,10 +40,10 @@ export const validateSignup = (credentials: UserCredentials) => {
 };
 
 export const fetchTopSongs = async () => {
-    const response = await fetch(`/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=3&country=us`);
+    const response = await fetch(`/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=30&country=us`);
     if (response.ok) {
         const data = await response.json();
-        console.log(data, "data");
+      return data
     } else {
         console.error('Error fetching songs:', response.statusText);
     }
@@ -51,11 +51,11 @@ export const fetchTopSongs = async () => {
 
 
 export const fetchLyricsForSong = async (trackId: string) => {
-  const response = await axios.get("/matcher.lyrics.get", {
-    params: {
-      track_id: trackId,
-      apikey: MUSIXMATCH_API_KEY,
-    },
-  });
-  return response.data.message.body.lyrics.lyrics_body;
-};
+  const response = await fetch(`/api/matcher.lyrics.get?apikey=${MUSIXMATCH_API_KEY}track_id=${trackId}&`);
+  if (response.ok) {
+      const data = await response.json();
+      return data.message;
+  } else {
+      console.error('Error fetching lyrics:', response.statusText);
+  }
+}
