@@ -9,16 +9,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        example: [
-          "Nunito Sans",
-          "Helvetica Neue",
-          "Helvetica",
-          "Arial",
-          "sans-serif",
-        ],
+        montserrat: ["Montserrat-Regular", "sans-serif"],
+        "montserrat-bold": ["Montserrat-Bold", "sans-serif"],
+        raleway: ["Raleway-Regular", "sans-serif"],
+        "raleway-bold": ["Raleway-Bold", "sans-serif"],
       },
       colors: {
-        sami: "#000",
+        "background-cream": "#F1FAEE",
         "shadow-color": "rgb(165 165 165 / 40%)",
         "example-white": "#fff",
         "example-black": "#333",

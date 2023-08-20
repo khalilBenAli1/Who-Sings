@@ -30,8 +30,6 @@ const MainScreen: React.FC = () => {
   return (
     <ScreenTemplate 
       topText="Who Sings"
-      // backgroundImage={require('../../assets/background.jpg')}
-      // topImage={require('../../assets/topImage.png')}
     >
       <AppButton label="New Game" onPress={handleNewGame}/>
       <AppButton label="My Profile" onPress={handleMyProfil}/>

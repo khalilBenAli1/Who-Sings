@@ -1,22 +1,22 @@
 import React from "react";
-import { View, ImageBackground, Image, Text } from "react-native";
+import { View, Image, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 
 interface ScreenTemplateProps {
   children: React.ReactNode;
-  backgroundImage?: any;
+  backgroundColor?: string; 
   topImage?: any;
   topText: string;
 }
 
 const ScreenTemplate: React.FC<ScreenTemplateProps> = ({
   children,
-  backgroundImage,
+  backgroundColor="#F1FAEE" ,
   topImage,
   topText,
 }) => {
   return (
-    <ImageBackground source={backgroundImage} style={tw`flex-1`}>
+    <View style={[tw`flex-1`,{backgroundColor:backgroundColor}]}> 
       <View style={tw`flex-1 justify-center p-5`}>
         <Image
           source={topImage}
@@ -26,7 +26,7 @@ const ScreenTemplate: React.FC<ScreenTemplateProps> = ({
         <Text style={tw`text-xl text-center mb-4`}>{topText}</Text>
         {children}
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 

@@ -40,22 +40,27 @@ export const validateSignup = (credentials: UserCredentials) => {
 };
 
 export const fetchTopSongs = async () => {
-    const response = await fetch(`/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=30&country=us`);
-    if (response.ok) {
-        const data = await response.json();
-      return data
-    } else {
-        console.error('Error fetching songs:', response.statusText);
-    }
-}
-
+  const response = await fetch(
+    `/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=30&country=us`
+  );
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    console.error("Error fetching songs:", response.statusText);
+  }
+};
 
 export const fetchLyricsForSong = async (trackId: string) => {
-  const response = await fetch(`/api/matcher.lyrics.get?apikey=${MUSIXMATCH_API_KEY}track_id=${trackId}&`);
+  const response = await fetch(
+    `/api/matcher.lyrics.get?apikey=${MUSIXMATCH_API_KEY}&track_id=${trackId}`
+  );
   if (response.ok) {
-      const data = await response.json();
-      return data.message;
+    const data = await response.json();
+    if (data?.message?.body?.lyrics?.lyrics_body) {
+      return data?.message?.body?.lyrics?.lyrics_body;
+    }
   } else {
-      console.error('Error fetching lyrics:', response.statusText);
+    console.error("Error fetching lyrics:", response.statusText);
   }
-}
+};

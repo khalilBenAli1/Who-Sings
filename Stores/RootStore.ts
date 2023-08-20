@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { UserModel } from "./Models/UserModel";
 import { SongModel } from "./Models/SongModel";
 import { fetchLyricsForSong, fetchTopSongs } from "../Utils/helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const RootStoreModel = types
   .model("RootStore")
@@ -39,16 +40,29 @@ export const RootStoreModel = types
   }))
   .actions((self) => ({
     afterCreate() {
+      AsyncStorage.getItem("root").then((root: any) => {
+        const parsedSongs = Object.values(
+          JSON.parse(root).songs
+        ) as SongModel[];
+        if (parsedSongs) {
+          parsedSongs.forEach((song: SongModel) => {
+            self.addSong(song);
+          });
+        }
+      });
+      
       fetchTopSongs()
         .then((response) => {
-          console.log(response)
+          console.log("ena hné ")
           const songs = response.message.body.track_list;
           songs.forEach((song: any) => {
             const trackId = song.track.track_id;
             fetchLyricsForSong(trackId)
               .then((trackLyrics: any) => {
-                const lyricsArray=trackLyrics.split('\n');
-                console.log(lyricsArray)
+                const lyricsArray = trackLyrics
+                  .split("\n")
+                  .slice(0, -3)
+                  .filter((line: string) => line !== "");
                 self.addSong(
                   SongModel.create({
                     track_id: trackId.toString(),
