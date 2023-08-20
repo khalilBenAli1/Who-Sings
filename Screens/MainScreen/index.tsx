@@ -1,9 +1,14 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import AppButton from '../../Components/AppButton';
-import ScreenTemplate from '../../Components/ScreenTamplate'; // Adjust the path accordingly
+import ScreenTemplate from '../../Components/ScreenTamplate';
+import { useStores } from '../../Stores/useStores';
+import { useNavigation } from '@react-navigation/native';
+import { fetchTopSongs } from '../../Utils/helpers';
 
 const MainScreen: React.FC = () => {
+
+  const rootStore=useStores()
+  const navigation = useNavigation();
   
   const handleNewGame = () => {
     
@@ -18,7 +23,8 @@ const MainScreen: React.FC = () => {
   };
 
   const Logout = () => {
-  
+    rootStore.logout()
+    navigation.navigate("Login" as never)
   };
 
   return (
