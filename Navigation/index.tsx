@@ -5,6 +5,7 @@ import MainScreen from "../Screens/MainScreen";
 import Login from "../Screens/Login";
 import Signup from "../Screens/SignUp";
 import { useStores } from "../Stores/useStores";
+import GameScreen from "../Screens/GameScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,11 @@ const Navigation: React.FC = () => {
         <Stack.Screen
           name="SignUp"
           component={Signup}
+          options={{ headerShown: false, headerTransparent: true }}
+        />
+         <Stack.Screen
+          name="GameScreen"
+          component={GameScreen}
           options={{ headerShown: false, headerTransparent: true }}
         />
       </Stack.Navigator>

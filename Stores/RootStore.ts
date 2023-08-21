@@ -37,24 +37,23 @@ export const RootStoreModel = types
     addSong(Song: SongModel) {
       self.songs.set(Song.track_id, Song);
     },
+    getRandomSongs() {
+      const songsArray = Array.from(self.songs.values());
+      const randomIndices = new Set();
+
+      while (randomIndices.size < Math.min(3, songsArray.length)) {
+        const randomIndex = Math.floor(Math.random() * songsArray.length);
+        randomIndices.add(randomIndex);
+      }
+      return [...randomIndices].map((index: any) => songsArray[index]);
+    },
   }))
-  .actions((self) => ({
-    afterCreate() {
-      AsyncStorage.getItem("root").then((root: any) => {
-        const parsedSongs = Object.values(
-          JSON.parse(root).songs
-        ) as SongModel[];
-        if (parsedSongs) {
-          parsedSongs.forEach((song: SongModel) => {
-            self.addSong(song);
-          });
-        }
-      });
-      
+  .actions((self) => ({ 
+    fetchAndAddSongs() {
       fetchTopSongs()
         .then((response) => {
-          console.log("ena hné ")
           const songs = response.message.body.track_list;
+          console.log(response )
           songs.forEach((song: any) => {
             const trackId = song.track.track_id;
             fetchLyricsForSong(trackId)
@@ -80,7 +79,31 @@ export const RootStoreModel = types
         .catch((error) => {
           console.error("Error fetching top songs:", error);
         });
+    }
+   }))
+  .actions((self) => ({
+    afterCreate() {
+
+      AsyncStorage.getItem("root").then((root: any) => {
+        if (root) { 
+          const parsedSongs = Object.values(JSON.parse(root).songs) as SongModel[];
+  
+          if (parsedSongs && parsedSongs.length > 0) {
+            parsedSongs.forEach((song: SongModel) => {
+              self.addSong(song);
+            });
+          } else {
+            self.fetchAndAddSongs();
+          }
+        } else {
+          self.fetchAndAddSongs();
+        }
+      }).catch((error) => {
+        console.error("Error reading from AsyncStorage:", error);
+      });
     },
-  }));
+  }))
+
+
 export interface RootStore extends Instance<typeof RootStoreModel> {}
 export interface RootStoreSnapshot extends SnapshotOut<typeof RootStoreModel> {}

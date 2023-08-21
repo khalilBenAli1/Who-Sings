@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AppButton from '../../Components/AppButton';
 import ScreenTemplate from '../../Components/ScreenTamplate';
 import { useStores } from '../../Stores/useStores';
 import { useNavigation } from '@react-navigation/native';
-import { fetchTopSongs } from '../../Utils/helpers';
+
 
 const MainScreen: React.FC = () => {
 
@@ -11,7 +11,7 @@ const MainScreen: React.FC = () => {
   const navigation = useNavigation();
   
   const handleNewGame = () => {
-    
+    navigation.navigate("GameScreen" as never)
   };
 
   const handleMyProfil = () => {

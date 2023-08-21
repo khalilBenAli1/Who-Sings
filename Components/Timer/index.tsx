@@ -5,10 +5,15 @@ import tw from 'tailwind-react-native-classnames';
 interface TimerProps {
   initialTime: number;
   onTimeOut: () => void;
+  resetKey: boolean;
 }
 
-const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut }) => {
+const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut, resetKey }) => {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
+  
+  useEffect(() => {
+    setTimeLeft(initialTime); 
+  }, [resetKey]);
 
   useEffect(() => {
     if (timeLeft === 0) {

@@ -1,6 +1,4 @@
 import Navigation from "./Navigation";
-import GameScreen from "./Screens/GameScreen";
-import * as Font from "expo-font";
 import { RootStoreProvider, useInitialRootStore } from "./Stores/useStores";
 import React, { useEffect, useState } from "react";
 import { loadFonts } from "./Utils/fontLoader";
@@ -23,9 +21,8 @@ export default function App() {
   if (!rehydrated || !fontsLoaded) return null;
 
   return (
-    // <RootStoreProvider value={rootStore}>
-    //   <Navigation />
-    // </RootStoreProvider>
-    <GameScreen />
+    <RootStoreProvider value={rootStore}>
+      <Navigation />
+    </RootStoreProvider>
   );
 }
