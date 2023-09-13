@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Text } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
@@ -12,11 +12,11 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut, resetKey }) => {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
-  const animatedValue = new Animated.Value(0);
+  const animatedValue = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    animatedValue.setValue(1);
     setTimeLeft(initialTime);
-    animatedValue.setValue(0);
   }, [resetKey]);
 
   useEffect(() => {
@@ -25,30 +25,27 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut, resetKey }) => {
       return;
     }
 
-
-
-    const timerId = setTimeout(() => {
-      setTimeLeft(timeLeft - 1);
+    const timerId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
 
-    return () => clearTimeout(timerId);
-  }, [timeLeft]);
+    return () => clearInterval(timerId);
+  }, [timeLeft, onTimeOut]);
 
   const circleCircumference = 2 * Math.PI * 30;
-  Animated.timing(animatedValue, {
-    toValue: (initialTime - timeLeft + 1) / initialTime,
-    duration: initialTime,
-    useNativeDriver: true,
-  }).start();
+  
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 0,
+      duration: initialTime * 1000, 
+      useNativeDriver: true,
+    }).start();
+  }, [resetKey,initialTime, animatedValue]);
+
   return (
     <View style={styles.container}>
       <Svg width="80" height="80" viewBox="0 0 80 80">
-        <Circle
-          cx="40"
-          cy="40"
-          r="30"
-          fill="#faa98c"
-        />
+        <Circle cx="40" cy="40" r="30" fill="none" />
         <AnimatedCircle
           cx="40"
           cy="40"
@@ -60,7 +57,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut, resetKey }) => {
           strokeDasharray={circleCircumference}
           strokeDashoffset={animatedValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, circleCircumference],
+            outputRange: [circleCircumference, 0],
           })}
         />
       </Svg>

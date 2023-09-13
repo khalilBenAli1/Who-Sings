@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ScreenTemplate from "../../Components/ScreenTamplate";
 import { useStores } from "../../Stores/useStores";
@@ -7,6 +7,7 @@ import Timer from "../../Components/Timer";
 import ArtistCard from "../../Components/ArtistCard";
 import { useNavigation } from "@react-navigation/native";
 import { Audio } from "expo-av";
+import * as Animatable from "react-native-animatable";
 
 const GameScreen: React.FC = () => {
   const store = useStores();
@@ -16,16 +17,21 @@ const GameScreen: React.FC = () => {
   const [randomLyric, setRandomLyric] = useState<string | null>(null);
   const [resetValue, setResetValue] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
-  const [numberOfSongs,setNumberOfSongs]= useState<number>(0)
+  const [numberOfSongs, setNumberOfSongs] = useState<number>(0);
+  const contentRef = useRef<any>(null);
+
   const loadNewQuestion = () => {
-    const songs = store.getRandomSongs();
-    setRandomSongs(songs);
-    const randomIndex = Math.floor(Math.random() * songs.length);
-    const selectedSong = songs[randomIndex];
-    setCorrectAnswer(selectedSong);
-    const lyricIndex = Math.floor(Math.random() * selectedSong.lyrics.length);
-    setRandomLyric(selectedSong.lyrics[lyricIndex]);
-    setNumberOfSongs(numberOfSongs+1)
+    contentRef.current?.fadeOut(500).then(() => {
+      const songs = store.getRandomSongs();
+      setRandomSongs(songs);
+      const randomIndex = Math.floor(Math.random() * songs.length);
+      const selectedSong = songs[randomIndex];
+      setCorrectAnswer(selectedSong);
+      const lyricIndex = Math.floor(Math.random() * selectedSong.lyrics.length);
+      setRandomLyric(selectedSong.lyrics[lyricIndex]);
+      setNumberOfSongs(numberOfSongs + 1);
+      contentRef.current?.fadeIn(500); 
+    });
   };
 
   const playSound = async (soundFile: string) => {
@@ -72,24 +78,36 @@ const GameScreen: React.FC = () => {
           }}
         />
       </View>
+      <Animatable.View
+        ref={contentRef}
+        animation="fadeIn"
+        duration={500}
+        style={{alignItems:"center"}}
+      >
+        <View style={styles.lyricsBox}>
+          <Text style={styles.lyricsText}>{randomLyric}</Text>
+        </View>
 
-      <View style={styles.lyricsBox}>
-        <Text style={styles.lyricsText}>{randomLyric}</Text>
-      </View>
+        <View style={styles.scoreContainer}>
+          <Text style={styles.scoreText}>Score: {score}</Text>
+        </View>
 
-      <View style={styles.scoreContainer}>
-        <Text style={styles.scoreText}>Score: {score}</Text>
-      </View>
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-        {randomSongs.map((song, index) => (
-          <ArtistCard
-            key={index}
-            artistName={song.artist_name}
-            onPress={() => handleAnswerClick(song)}
-          />
-        ))}
-      </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 20,
+          }}
+        >
+          {randomSongs.map((song, index) => (
+            <ArtistCard
+              key={index}
+              artistName={song.artist_name}
+              onPress={() => handleAnswerClick(song)}
+            />
+          ))}
+        </View>
+      </Animatable.View>
     </ScreenTemplate>
   );
 };
