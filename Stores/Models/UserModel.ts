@@ -6,7 +6,7 @@ export const UserModel = types
   .props({
     email: types.identifier,
     name: types.string,
-    score: types.optional(types.number, 0),
+    score: types.optional(types.number, 1),
     password: types.maybe(types.string),
   })
   .views((self) => ({

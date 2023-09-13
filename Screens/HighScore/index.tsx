@@ -22,7 +22,7 @@ const HighScoreScreen: React.FC = () => {
         renderItem={({ item, index }) => (
           <RankCard rank={index + 1} user={item} />
         )}
-        style={{ maxHeight: "40%" }}
+        style={{ flex: 1, width: "80%", maxHeight: "80%" }}
       />
       <AppButton
         label="return"

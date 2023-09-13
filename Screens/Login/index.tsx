@@ -62,7 +62,7 @@ const Login: React.FC = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate("SignUp" as never)}
         >
-          <Text style={tw`text-blue-500`}> Signup</Text>
+          <Text style={tw`text-white`}> Signup</Text>
         </TouchableOpacity>
       </Text>
     </ScreenTemplate>

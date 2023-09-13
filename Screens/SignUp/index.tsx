@@ -78,7 +78,7 @@ const Signup: React.FC = () => {
       <Text style={tw`text-center mt-4`}>
         Already have an account?
         <TouchableOpacity onPress={() => navigation.navigate("Login" as never)}>
-          <Text style={tw`text-blue-500`}> Login</Text>
+          <Text style={tw`text-white`}> Login</Text>
         </TouchableOpacity>
       </Text>
     </ScreenTemplate>
