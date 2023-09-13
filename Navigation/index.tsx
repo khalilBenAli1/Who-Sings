@@ -9,12 +9,11 @@ import GameScreen from "../Screens/GameScreen";
 import Profil from "../Screens/Profil";
 import HighScoreScreen from "../Screens/HighScore";
 
-
 const Stack = createStackNavigator();
 
 const Navigation: React.FC = () => {
   const { currentUser } = useStores();
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={currentUser ? "Main" : "Login"}>
@@ -33,17 +32,17 @@ const Navigation: React.FC = () => {
           component={Signup}
           options={{ headerShown: false, headerTransparent: true }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="GameScreen"
           component={GameScreen}
           options={{ headerShown: false, headerTransparent: true }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Profil"
           component={Profil}
           options={{ headerShown: false, headerTransparent: true }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="highScore"
           component={HighScoreScreen}
           options={{ headerShown: false, headerTransparent: true }}

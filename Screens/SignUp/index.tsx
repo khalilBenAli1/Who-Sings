@@ -6,7 +6,7 @@ import ScreenTemplate from "../../Components/ScreenTamplate";
 import { useNavigation } from "@react-navigation/native";
 import AppTextInput from "../../Components/AppTextInput";
 import { UserCredentials } from "../../Utils/types";
-import {validateSignup } from "../../Utils/helpers";
+import { validateSignup } from "../../Utils/helpers";
 import { useStores } from "../../Stores/useStores";
 
 const Signup: React.FC = () => {
@@ -41,11 +41,10 @@ const Signup: React.FC = () => {
       name: credentials.name,
       score: 0,
     });
-    rootStore.setCurrentUser(credentials.email)
-    navigation.navigate("Main" as never)
+    rootStore.setCurrentUser(credentials.email);
+    navigation.navigate("Main" as never);
   };
 
- 
   return (
     <ScreenTemplate>
       <AppTextInput

@@ -3,25 +3,20 @@ import { View, Image, StyleSheet } from "react-native";
 
 interface ScreenTemplateProps {
   children: React.ReactNode;
-  backgroundColor?: string; 
+  backgroundColor?: string;
   topImage?: any;
 }
-const logo=require("../../assets/WhoSings.jpeg")
+const logo = require("../../assets/WhoSings.jpeg");
 const ScreenTemplate: React.FC<ScreenTemplateProps> = ({
   children,
   backgroundColor = "#876197",
-  topImage=logo,
-
+  topImage = logo,
 }) => {
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>
       <View style={styles.content}>
         {topImage && (
-          <Image
-            source={topImage}
-            style={styles.image}
-            resizeMode="contain"
-          />
+          <Image source={topImage} style={styles.image} resizeMode="contain" />
         )}
         {children}
       </View>
@@ -32,13 +27,13 @@ const ScreenTemplate: React.FC<ScreenTemplateProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', 
-    alignItems: 'center',     
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   content: {
     alignItems: "center",
-    width:'80%' 
+    width: "80%",
   },
   image: {
     width: 350,
@@ -59,10 +54,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     color: "#333",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: "Montserrat-Regular",
   },
 });
 

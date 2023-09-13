@@ -1,7 +1,6 @@
 import Constants from "expo-constants";
 import { UserCredentials } from "./types";
 
-
 const { MUSIXMATCH_API_KEY }: any = Constants?.manifest?.extra;
 
 export const isEmpty = (value: string): boolean => {
@@ -40,7 +39,7 @@ export const validateSignup = (credentials: UserCredentials) => {
 
 export const fetchTopSongs = async () => {
   const response = await fetch(
-    `/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=30&country=us`
+    `/api/chart.tracks.get?apikey=${MUSIXMATCH_API_KEY}&page=1&page_size=30&country=us`,
   );
   if (response.ok) {
     const data = await response.json();
@@ -52,7 +51,7 @@ export const fetchTopSongs = async () => {
 
 export const fetchLyricsForSong = async (trackId: string) => {
   const response = await fetch(
-    `/api/matcher.lyrics.get?apikey=${MUSIXMATCH_API_KEY}&track_id=${trackId}`
+    `/api/matcher.lyrics.get?apikey=${MUSIXMATCH_API_KEY}&track_id=${trackId}`,
   );
   if (response.ok) {
     const data = await response.json();
@@ -64,7 +63,7 @@ export const fetchLyricsForSong = async (trackId: string) => {
   }
 };
 
-export const COLORPARTICIPANTS:string[] = [
+export const COLORPARTICIPANTS: string[] = [
   "#D7B4BF",
   "#D5D4E5",
   "#A1B3D1",
@@ -85,18 +84,22 @@ export const COLORPARTICIPANTS:string[] = [
   "#B3DDCD",
   "#D0E7DA",
   "#E8BED3",
-]
+];
 
 export const fastHash = (str: string): number => {
-  const seed = 0
-  let h1 = 0xdeadbeef ^ seed
-  let h2 = 0x41c6ce57 ^ seed
+  const seed = 0;
+  let h1 = 0xdeadbeef ^ seed;
+  let h2 = 0x41c6ce57 ^ seed;
   for (let i = 0, ch; i < str.length; i++) {
-    ch = str.charCodeAt(i)
-    h1 = Math.imul(h1 ^ ch, 2654435761)
-    h2 = Math.imul(h2 ^ ch, 1597334677)
+    ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
   }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909)
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909)
-  return 4294967296 * (2097151 & h2) + (h1 >>> 0)
-}
+  h1 =
+    Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^
+    Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 =
+    Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^
+    Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};

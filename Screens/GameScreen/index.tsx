@@ -30,13 +30,13 @@ const GameScreen: React.FC = () => {
       const lyricIndex = Math.floor(Math.random() * selectedSong.lyrics.length);
       setRandomLyric(selectedSong.lyrics[lyricIndex]);
       setNumberOfSongs(numberOfSongs + 1);
-      contentRef.current?.fadeIn(500); 
+      contentRef.current?.fadeIn(500);
     });
   };
 
   const playSound = async (soundFile: string) => {
     const { sound } = await Audio.Sound.createAsync(
-      require(`../../assets/sounds/${soundFile}`)
+      require(`../../assets/sounds/${soundFile}`),
     );
     await sound.playAsync();
   };
@@ -82,7 +82,7 @@ const GameScreen: React.FC = () => {
         ref={contentRef}
         animation="fadeIn"
         duration={500}
-        style={{alignItems:"center"}}
+        style={{ alignItems: "center" }}
       >
         <View style={styles.lyricsBox}>
           <Text style={styles.lyricsText}>{randomLyric}</Text>

@@ -10,7 +10,7 @@ export interface ProfilePictureProps {
 
 const ProfilePicture = ({ user, size = 10 }: ProfilePictureProps) => {
   const backgroundColor = { backgroundColor: user?.color };
-  const getInitial : string | undefined= user?.name[0]?.toUpperCase();
+  const getInitial: string | undefined = user?.name[0]?.toUpperCase();
 
   return (
     <View

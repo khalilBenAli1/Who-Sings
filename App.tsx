@@ -5,7 +5,7 @@ import { loadFonts } from "./Utils/fontLoader";
 import { AppRegistry } from "react-native";
 
 export default function App() {
-  const { rootStore,rehydrated } = useInitialRootStore(() => {
+  const { rootStore, rehydrated } = useInitialRootStore(() => {
     setTimeout(() => console.log("loading Completed"), 500);
   });
 
@@ -17,7 +17,7 @@ export default function App() {
       setFontsLoaded(true);
     }
     fetchFonts();
-  }, []); 
+  }, []);
 
   if (!rehydrated || !fontsLoaded) return null;
 

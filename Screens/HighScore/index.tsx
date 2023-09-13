@@ -26,7 +26,7 @@ const HighScoreScreen: React.FC = () => {
       />
       <AppButton
         label="return"
-        onPress={()=>navigation.navigate("Main" as never)}
+        onPress={() => navigation.navigate("Main" as never)}
       />
     </ScreenTemplate>
   );

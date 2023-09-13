@@ -17,7 +17,7 @@ export async function setupRootStore(rootStore: RootStore) {
   if (_disposer) _disposer();
 
   _disposer = onSnapshot(rootStore, (snapshot) =>
-    storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
+    storage.save(ROOT_STATE_STORAGE_KEY, snapshot),
   );
 
   const unsubscribe = () => {

@@ -48,12 +48,12 @@ export const RootStoreModel = types
       return [...randomIndices].map((index: any) => songsArray[index]);
     },
   }))
-  .actions((self) => ({ 
+  .actions((self) => ({
     fetchAndAddSongs() {
       fetchTopSongs()
         .then((response) => {
           const songs = response.message.body.track_list;
-          console.log(response )
+          console.log(response);
           songs.forEach((song: any) => {
             const trackId = song.track.track_id;
             fetchLyricsForSong(trackId)
@@ -61,14 +61,14 @@ export const RootStoreModel = types
                 const lyricsArray = trackLyrics
                   .split("\n")
                   .slice(0, -3)
-                  .filter((line: string) => line !== "" && line !=="...");
+                  .filter((line: string) => line !== "" && line !== "...");
                 self.addSong(
                   SongModel.create({
                     track_id: trackId.toString(),
                     track_name: song.track.track_name,
                     artist_name: song.track.artist_name,
                     lyrics: lyricsArray,
-                  })
+                  }),
                 );
               })
               .catch((error) => {
@@ -79,31 +79,33 @@ export const RootStoreModel = types
         .catch((error) => {
           console.error("Error fetching top songs:", error);
         });
-    }
-   }))
+    },
+  }))
   .actions((self) => ({
     afterCreate() {
+      AsyncStorage.getItem("root")
+        .then((root: any) => {
+          if (root) {
+            const parsedSongs = Object.values(
+              JSON.parse(root).songs,
+            ) as SongModel[];
 
-      AsyncStorage.getItem("root").then((root: any) => {
-        if (root) { 
-          const parsedSongs = Object.values(JSON.parse(root).songs) as SongModel[];
-  
-          if (parsedSongs && parsedSongs.length > 0) {
-            parsedSongs.forEach((song: SongModel) => {
-              self.addSong(song);
-            });
+            if (parsedSongs && parsedSongs.length > 0) {
+              parsedSongs.forEach((song: SongModel) => {
+                self.addSong(song);
+              });
+            } else {
+              self.fetchAndAddSongs();
+            }
           } else {
             self.fetchAndAddSongs();
           }
-        } else {
-          self.fetchAndAddSongs();
-        }
-      }).catch((error) => {
-        console.error("Error reading from AsyncStorage:", error);
-      });
+        })
+        .catch((error) => {
+          console.error("Error reading from AsyncStorage:", error);
+        });
     },
-  }))
-
+  }));
 
 export interface RootStore extends Instance<typeof RootStoreModel> {}
 export interface RootStoreSnapshot extends SnapshotOut<typeof RootStoreModel> {}

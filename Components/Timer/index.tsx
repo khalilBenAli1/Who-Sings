@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Text } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Animated, Text } from "react-native";
+import Svg, { Circle } from "react-native-svg";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -33,14 +33,14 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeOut, resetKey }) => {
   }, [timeLeft, onTimeOut]);
 
   const circleCircumference = 2 * Math.PI * 30;
-  
+
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 0,
-      duration: initialTime * 1000, 
+      duration: initialTime * 1000,
       useNativeDriver: true,
     }).start();
-  }, [resetKey,initialTime, animatedValue]);
+  }, [resetKey, initialTime, animatedValue]);
 
   return (
     <View style={styles.container}>
@@ -72,19 +72,19 @@ const styles = StyleSheet.create({
   container: {
     width: 80,
     height: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   textContainer: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
     width: 80,
     height: 80,
   },
   timerText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#faa98c",
   },
 });

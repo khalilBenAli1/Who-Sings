@@ -1,13 +1,17 @@
-import React from 'react';
-import { TextInput, TextInputProps } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+import React from "react";
+import { TextInput, TextInputProps } from "react-native";
+import tw from "tailwind-react-native-classnames";
 
 interface AppTextInputProps extends TextInputProps {
   value: string;
   onChangeText: (text: string) => void;
 }
 
-const AppTextInput: React.FC<AppTextInputProps> = ({ value, onChangeText, ...props }) => {
+const AppTextInput: React.FC<AppTextInputProps> = ({
+  value,
+  onChangeText,
+  ...props
+}) => {
   return (
     <TextInput
       value={value}
