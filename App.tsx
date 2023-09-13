@@ -2,6 +2,7 @@ import Navigation from "./Navigation";
 import { RootStoreProvider, useInitialRootStore } from "./Stores/useStores";
 import React, { useEffect, useState } from "react";
 import { loadFonts } from "./Utils/fontLoader";
+import { AppRegistry } from "react-native";
 
 export default function App() {
   const { rootStore,rehydrated } = useInitialRootStore(() => {
@@ -26,3 +27,4 @@ export default function App() {
     </RootStoreProvider>
   );
 }
+AppRegistry.registerComponent("main", () => App);

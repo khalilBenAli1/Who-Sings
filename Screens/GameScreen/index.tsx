@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import ScreenTemplate from "../../Components/ScreenTamplate";
-import tw from "tailwind-react-native-classnames";
 import { useStores } from "../../Stores/useStores";
 import { SongModel } from "../../Stores/Models/SongModel";
 import Timer from "../../Components/Timer";
+import ArtistCard from "../../Components/ArtistCard";
 
 const GameScreen: React.FC = () => {
   const store = useStores();
@@ -12,6 +12,7 @@ const GameScreen: React.FC = () => {
   const [correctAnswer, setCorrectAnswer] = useState<SongModel | null>(null);
   const [randomLyric, setRandomLyric] = useState<string | null>(null);
   const [resetValue, setResetValue] = useState<boolean>(false);
+
   const loadNewQuestion = () => {
     const songs = store.getRandomSongs();
     setRandomSongs(songs);
@@ -29,25 +30,29 @@ const GameScreen: React.FC = () => {
   }, []);
 
   return (
-    <ScreenTemplate topText="Guess the Singer!">
-      <Timer
-        initialTime={10}
-        resetKey={resetValue}
-        onTimeOut={() => {
-          loadNewQuestion();
-          setResetValue(!resetValue);
-        }}
-      />
+    <ScreenTemplate>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Guess the Singer!</Text>
 
-      <View style={tw`bg-white p-5 rounded-lg mb-5`}>
-        <Text style={tw`text-center text-lg`}>{randomLyric}</Text>
+        <Timer
+          initialTime={10}
+          resetKey={resetValue}
+          onTimeOut={() => {
+            loadNewQuestion();
+            setResetValue(!resetValue);
+          }}
+        />
       </View>
 
-      <View style={tw`flex-row justify-between`}>
+      <View style={styles.lyricsBox}>
+        <Text style={styles.lyricsText}>{randomLyric}</Text>
+      </View>
+
+      <View style={{ flexDirection: "row", justifyContent: "space-between" ,marginTop:20}}>
         {randomSongs.map((song, index) => (
-          <Button
+          <ArtistCard
             key={index}
-            title={song.artist_name}
+            artistName={song.artist_name}
             onPress={() => {
               if (song === correctAnswer) {
                 console.log("Correct!");
@@ -62,5 +67,46 @@ const GameScreen: React.FC = () => {
     </ScreenTemplate>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    paddingHorizontal:20,
+  },
+  lyricsBox: {
+    backgroundColor: "#f7f7f7",
+    padding: 20,
+    borderRadius: 20,
+    margin: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    width:"80%",
+    elevation: 5,
+  },
+  lyricsText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#333",
+  },
+  artistContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
+});
 
 export default GameScreen;

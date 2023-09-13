@@ -47,7 +47,7 @@ const Signup: React.FC = () => {
 
  
   return (
-    <ScreenTemplate topText="Create a new account">
+    <ScreenTemplate>
       <AppTextInput
         value={credentials.name}
         onChangeText={(name) => setCredentials((prev) => ({ ...prev, name }))}

@@ -46,7 +46,7 @@ const Login: React.FC = () => {
   const navigation = useNavigation();
 
   return (
-    <ScreenTemplate topText="Login to your account">
+    <ScreenTemplate >
       <AppTextInput value={email} onChangeText={setEmail} placeholder="Email" />
       <AppTextInput
         value={password}

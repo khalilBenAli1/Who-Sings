@@ -15,11 +15,11 @@ const MainScreen: React.FC = () => {
   };
 
   const handleMyProfil = () => {
-    
+    navigation.navigate("Profil" as never)
   };
 
   const handleHighScore = () => {
-  
+    navigation.navigate("highScore" as never)
   };
 
   const Logout = () => {
@@ -29,7 +29,7 @@ const MainScreen: React.FC = () => {
 
   return (
     <ScreenTemplate 
-      topText="Who Sings"
+     
     >
       <AppButton label="New Game" onPress={handleNewGame}/>
       <AppButton label="My Profile" onPress={handleMyProfil}/>

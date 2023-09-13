@@ -6,6 +6,9 @@ import Login from "../Screens/Login";
 import Signup from "../Screens/SignUp";
 import { useStores } from "../Stores/useStores";
 import GameScreen from "../Screens/GameScreen";
+import Profil from "../Screens/Profil";
+import HighScoreScreen from "../Screens/HighScore";
+
 
 const Stack = createStackNavigator();
 
@@ -33,6 +36,16 @@ const Navigation: React.FC = () => {
          <Stack.Screen
           name="GameScreen"
           component={GameScreen}
+          options={{ headerShown: false, headerTransparent: true }}
+        />
+         <Stack.Screen
+          name="Profil"
+          component={Profil}
+          options={{ headerShown: false, headerTransparent: true }}
+        />
+         <Stack.Screen
+          name="highScore"
+          component={HighScoreScreen}
           options={{ headerShown: false, headerTransparent: true }}
         />
       </Stack.Navigator>
