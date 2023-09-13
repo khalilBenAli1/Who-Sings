@@ -5,24 +5,53 @@ import { useStores } from "../../Stores/useStores";
 import { SongModel } from "../../Stores/Models/SongModel";
 import Timer from "../../Components/Timer";
 import ArtistCard from "../../Components/ArtistCard";
+import { useNavigation } from "@react-navigation/native";
+import { Audio } from "expo-av";
 
 const GameScreen: React.FC = () => {
   const store = useStores();
+  const navigation = useNavigation();
   const [randomSongs, setRandomSongs] = useState<SongModel[]>([]);
   const [correctAnswer, setCorrectAnswer] = useState<SongModel | null>(null);
   const [randomLyric, setRandomLyric] = useState<string | null>(null);
   const [resetValue, setResetValue] = useState<boolean>(false);
-
+  const [score, setScore] = useState<number>(0);
+  const [numberOfSongs,setNumberOfSongs]= useState<number>(0)
   const loadNewQuestion = () => {
     const songs = store.getRandomSongs();
     setRandomSongs(songs);
-
     const randomIndex = Math.floor(Math.random() * songs.length);
     const selectedSong = songs[randomIndex];
     setCorrectAnswer(selectedSong);
-
     const lyricIndex = Math.floor(Math.random() * selectedSong.lyrics.length);
     setRandomLyric(selectedSong.lyrics[lyricIndex]);
+    setNumberOfSongs(numberOfSongs+1)
+  };
+
+  const playSound = async (soundFile: string) => {
+    const { sound } = await Audio.Sound.createAsync(
+      require(`../../assets/sounds/${soundFile}`)
+    );
+    await sound.playAsync();
+  };
+
+  const handleAnswerClick = (song: SongModel) => {
+    if (numberOfSongs === 10) {
+      store.updateScore(score);
+      navigation.navigate("Main" as never);
+    }
+    if (song === correctAnswer) {
+      setScore(score + 1);
+      playSound("right_answer.wav");
+      loadNewQuestion();
+      setResetValue(!resetValue);
+      console.log("Correct!");
+    } else {
+      console.log("Wrong!");
+      playSound("wrong_answer.mp3");
+      loadNewQuestion();
+      setResetValue(!resetValue);
+    }
   };
 
   useEffect(() => {
@@ -33,11 +62,11 @@ const GameScreen: React.FC = () => {
     <ScreenTemplate>
       <View style={styles.header}>
         <Text style={styles.headerText}>Guess the Singer!</Text>
-
         <Timer
           initialTime={10}
           resetKey={resetValue}
           onTimeOut={() => {
+            playSound("wrong_answer.mp3");
             loadNewQuestion();
             setResetValue(!resetValue);
           }}
@@ -48,19 +77,16 @@ const GameScreen: React.FC = () => {
         <Text style={styles.lyricsText}>{randomLyric}</Text>
       </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" ,marginTop:20}}>
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>Score: {score}</Text>
+      </View>
+
+      <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
         {randomSongs.map((song, index) => (
           <ArtistCard
             key={index}
             artistName={song.artist_name}
-            onPress={() => {
-              if (song === correctAnswer) {
-                console.log("Correct!");
-              } else {
-                console.log("Wrong!");
-                loadNewQuestion();
-              }
-            }}
+            onPress={() => handleAnswerClick(song)}
           />
         ))}
       </View>
@@ -79,7 +105,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    paddingHorizontal:20,
+    paddingHorizontal: 20,
   },
   lyricsBox: {
     backgroundColor: "#f7f7f7",
@@ -93,13 +119,21 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    width:"80%",
+    width: "80%",
     elevation: 5,
   },
   lyricsText: {
     textAlign: "center",
     fontSize: 18,
     color: "#333",
+  },
+  scoreContainer: {
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  scoreText: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
   artistContainer: {
     flexDirection: "row",

@@ -61,7 +61,7 @@ export const RootStoreModel = types
                 const lyricsArray = trackLyrics
                   .split("\n")
                   .slice(0, -3)
-                  .filter((line: string) => line !== "");
+                  .filter((line: string) => line !== "" && line !=="...");
                 self.addSong(
                   SongModel.create({
                     track_id: trackId.toString(),
