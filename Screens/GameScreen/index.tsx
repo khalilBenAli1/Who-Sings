@@ -8,6 +8,7 @@ import ArtistCard from "../../Components/ArtistCard";
 import { useNavigation } from "@react-navigation/native";
 import { Audio } from "expo-av";
 import * as Animatable from "react-native-animatable";
+import WinModal from "../../Components/WinModal";
 
 const GameScreen: React.FC = () => {
   const store = useStores();
@@ -19,7 +20,7 @@ const GameScreen: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [numberOfSongs, setNumberOfSongs] = useState<number>(0);
   const contentRef = useRef<any>(null);
-
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const loadNewQuestion = () => {
     contentRef.current?.fadeOut(500).then(() => {
       const songs = store.getRandomSongs();
@@ -34,6 +35,10 @@ const GameScreen: React.FC = () => {
     });
   };
 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
   const playSound = async (soundFile: string) => {
     const { sound } = await Audio.Sound.createAsync(
       require(`../../assets/sounds/${soundFile}`),
@@ -43,8 +48,8 @@ const GameScreen: React.FC = () => {
 
   const handleAnswerClick = (song: SongModel) => {
     if (numberOfSongs === 10) {
+      openModal();
       store.updateScore(score);
-      navigation.navigate("Main" as never);
     }
     if (song === correctAnswer) {
       setScore(score + 1);
@@ -66,6 +71,11 @@ const GameScreen: React.FC = () => {
 
   return (
     <ScreenTemplate>
+      <WinModal
+        score={score}
+        visible={modalVisible}
+        onClose={() => navigation.navigate("Main" as never)}
+      />
       <View style={styles.header}>
         <Text style={styles.headerText}>Guess the Singer!</Text>
         <Timer
